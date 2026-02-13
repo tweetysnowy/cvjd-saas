@@ -1,6 +1,6 @@
 import os
 import stripe
-import openai
+from openai import OpenAI
 from fastapi import FastAPI, Request, UploadFile, File, Form
 from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.templating import Jinja2Templates
@@ -18,7 +18,7 @@ PRICE_ID = os.getenv("PRICE_ID")
 DOMAIN = os.getenv("DOMAIN")
 
 stripe.api_key = STRIPE_SECRET_KEY
-openai.api_key = OPENAI_API_KEY
+client = OpenAI(api_key=OPENAI_API_KEY)
 
 
 @app.get("/", response_class=HTMLResponse)
@@ -73,13 +73,17 @@ async def process_files(
         {jd_content}
         """
 
-        response = openai.ChatCompletion.create(
-            model="gpt-3.5-turbo",
-            messages=[{"role": "user", "content": prompt}],
+        response = client.chat.completions.create(
+            model="gpt-4o-mini",
+            messages=[
+                {"role": "system", "content": "You are an expert resume optimizer."},
+                {"role": "user", "content": prompt}
+            ],
             temperature=0.3,
         )
-
+        
         optimized_cv = response.choices[0].message.content
+
 
         message = Mail(
             from_email="info@curiocamp.com",
