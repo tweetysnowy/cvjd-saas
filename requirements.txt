@@ -1,8 +1,8 @@
 fastapi
 uvicorn
-python-multipart
 jinja2
-openai
+python-multipart
 stripe
+openai
 sendgrid
 python-dotenv
