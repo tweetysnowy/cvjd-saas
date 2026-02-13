@@ -57,8 +57,12 @@ async def process_files(
     jd: UploadFile = File(...)
 ):
     try:
-        cv_content = (await cv.read()).decode("utf-8")
-        jd_content = (await jd.read()).decode("utf-8")
+        cv_bytes = await cv.read()
+        jd_bytes = await jd.read()
+        
+        cv_content = cv_bytes.decode("utf-8", errors="ignore")
+        jd_content = jd_bytes.decode("utf-8", errors="ignore")
+
 
         prompt = f"""
         Optimize the following CV for the job description.
