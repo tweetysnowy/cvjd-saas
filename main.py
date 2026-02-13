@@ -78,7 +78,7 @@ async def process_files(
         optimized_cv = response.choices[0].message.content
 
         message = Mail(
-            from_email="yourverifiedemail@example.com",
+            from_email="info@curiocamp.com",
             to_emails=email,
             subject="Your Optimized CV",
             plain_text_content=optimized_cv,
