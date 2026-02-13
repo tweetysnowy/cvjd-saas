@@ -3,6 +3,6 @@ uvicorn
 jinja2
 python-multipart
 stripe
-openai
+openai>=1.0.0
 sendgrid
 python-dotenv
